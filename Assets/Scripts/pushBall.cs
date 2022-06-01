@@ -12,11 +12,11 @@ public class pushBall : MonoBehaviour
     {
         if(collision.tag == "Respawn" && left == true)
         {
-            rb2.velocity = new Vector2(-5, 0);
+            rb2.velocity = new Vector2(-10, 0);
         }
         else if(collision.tag == "Respawn" && left == false)
         {
-            rb2.velocity = new Vector2(5, 0);
+            rb2.velocity = new Vector2(10, 0);
         }
     }
 }
