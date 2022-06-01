@@ -33,7 +33,10 @@ public class Ball : MonoBehaviour
 
     public void ResetPosition()
     {
-        rb2.position = Vector3.zero;
+        Vector3 ballPos = new Vector3(0, Random.Range(-4.8f, 4.8f), 0);
+
+        rb2.position = ballPos;
+
         rb2.velocity = Vector3.zero;
     }
 
