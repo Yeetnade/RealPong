@@ -6,6 +6,8 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rb2;
     public float speed;
+    public AudioSource ballSource;
+    public AudioClip paddleSound, paddleSound2;
 
     private void Awake()
     {
@@ -19,7 +21,7 @@ public class Ball : MonoBehaviour
     public void AddStartingForce()
     {
         float x = Random.value < 0.5f ? -1.0f : 1.0f;
-        float y = Random.value < 0.5f ? Random.Range(-3.0f, -0.5f) : Random.Range(0.5f, 3.0f);
+        float y = Random.value < 0.5f ? Random.Range(-3, -0.5f) : Random.Range(0.5f, 3f);
 
         Vector2 direction = new Vector2(x, y);
         GetComponent<Rigidbody2D>().velocity = direction * this.speed;
@@ -42,18 +44,23 @@ public class Ball : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
+        float angle = Random.value < 0.5 ? 0.00001f : 0.001f;
+        float angle2 = Random.value < 0.5 ? -0.00001f : -0.001f;
         if(col.gameObject.name == "PaddleLeft")
         {
             float y = hitFactor(transform.position, col.transform.position, col.collider.bounds.size.y);
-            Vector2 direction = new Vector2(0.0001f, y).normalized;
+            Vector2 direction = new Vector2(angle, y).normalized;
             GetComponent<Rigidbody2D>().velocity = direction * speed;
+            ballSource.PlayOneShot(paddleSound);
         }
         if (col.gameObject.name == "PaddleRight")
         {
             float y = hitFactor(transform.position, col.transform.position, col.collider.bounds.size.y);
-            Vector2 direction = new Vector2(-0.0001f, y).normalized;
+            Vector2 direction = new Vector2(angle2, y).normalized;
             GetComponent<Rigidbody2D>().velocity = direction * speed;
+            ballSource.PlayOneShot(paddleSound2);
         }
+        
     }
 
     float hitFactor(Vector2 ballpos, Vector2 racketPos, float racketHeight)

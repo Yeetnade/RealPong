@@ -19,18 +19,30 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject gameOverUI2;
 
+    public AudioSource scoreSource1;
+    public AudioSource scoreSource2;
+    public AudioClip scoreSound;    
+
+    public GameObject player1;
+    public GameObject player2;
+
+    public GameObject gameBoundaries;
+  
+    
+    public GameObject endBoundaries;
+
     public void PlayerScores1()
     {
         _playerScore1++;
         this.playerScoreText1.text = _playerScore1.ToString();
         if (_playerScore1 == 11)
         {
-            this.ball.ResetPosition();
             gameOverUI2.SetActive(true);
-
+            endGame();
         }
         else
         {
+            scoreSource1.PlayOneShot(scoreSound);
             ResetRound();
         }
         
@@ -42,12 +54,12 @@ public class GameManager : MonoBehaviour
         this.playerScoreText2.text = _playerScore2.ToString();
         if (_playerScore2 == 11)
         {
-            this.ball.ResetPosition();
             gameOverUI1.SetActive(true);
-
+            endGame();
         }
         else
         {
+            scoreSource2.PlayOneShot(scoreSound);
             ResetRound();
         }
         
@@ -55,8 +67,27 @@ public class GameManager : MonoBehaviour
 
     private void ResetRound()
     {
+        ball.rb2.velocity = Vector2.zero;
+        StartCoroutine(WaitBeforeReset());
+       
+    }
+
+    IEnumerator WaitBeforeReset()
+    {
+        yield return new WaitForSeconds(2f);
         this.ball.ResetPosition();
         this.ball.AddStartingForce();
     }
 
+    public void endGame()
+    {
+        this.ball.ResetPosition();
+        this.ball.AddStartingForce();
+
+        player1.SetActive(false);
+        player2.SetActive(false);
+
+        gameBoundaries.SetActive(false);
+        endBoundaries.SetActive(true);
+    }
 }
