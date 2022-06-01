@@ -31,6 +31,14 @@ public class GameManager : MonoBehaviour
     
     public GameObject endBoundaries;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+            Debug.Log("Quit");
+        }
+    }
     public void PlayerScores1()
     {
         _playerScore1++;
